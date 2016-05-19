@@ -1,0 +1,17 @@
+{
+  "intents": [
+    {
+      "intent": "GetTodayinPhistory",
+      "slots": [
+        {
+          "name": "day",
+          "type": "DATE"
+        }
+      ]
+    },
+    {
+      "intent": "HelpIntent",
+      "slots": []
+    }
+  ]
+}
