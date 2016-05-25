@@ -1,34 +1,47 @@
-var http       = require('http')
+var http       = require('https')
   , AlexaSkill = require('./AlexaSkill')
   , APP_ID     = 'amzn1.echo-sdk-ams.app.e44a2706-aa57-4bcc-a6b4-b2fe2ba1ebac'
  
 
-var url ='http://api.phish.net/api.js?api=2.0&method=pnet.shows.setlists.tiph&format=json';
+var url = function(request){return 'https://api.phish.net/api.js?api=2.0&method=pnet.shows.setlists.tiph&format=json';};
 
+var getShow = function(request, callback) {
 
-var getShow = function(url, callback) {
-
-  http.get(url, function(res){
+      http.get(url(request), function(res){
       var body = '';
 
-      res.on('data', function(chunk){
-          body += chunk;
+      res.on('data', function(data){
+          body += data;
+
+
       });
 
       res.on('end', function(){
-          var phResponse = JSON.parse(body);
-          callback(phResponse);
-          console.log("Got a response: ", phResponse);
+
+            var result = JSON.parse(body);
+         //var pnetResponse = phResponse[0];
+           //callback(result);
+        //   console.log(result)
+            callback(null,result);
+         // console.log("Got a response: ", result.relativetime );
+
+         // console.log(data);
+
+
       });
-  }).on('error', function(e){
+
+      }).on('error', function(e){a
         console.log("Got an error: ", e);
-  });
+        });
 };
 
-getShow();
-var cardText = phResponse.relativetime + ' phish played in ' + phResponse.city + ' at ' + phResponse.venue + ' on ' + phResponse.nicedate
+var pnetResponse = getShow();
+console.log(pnetResponse);
+//var cardText = pnetResponse.relativetime + ' phish played in ' + pnetResponse.city + ' at ' + pnetResponse.venue + ' on ' + pnetResponse.nicedate
 
-var phishShow = function(){
+//console.log (cardText);
+
+/*var phishShow = function(){
   AlexaSkill.call(this, APP_ID);
 };
 
@@ -61,6 +74,6 @@ response.ask(cardText);
 exports.handler = function(event, context) {
     var skill = new phishShow();
     skill.execute(event, context);
-};
+};*/
 
  
